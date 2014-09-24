@@ -8,4 +8,5 @@ deploy:
     secure: WisbNNdQIPkfNTZf1LYXftnY8xgSLY4SeuxdiglrL4uxUtbR4E24KR1T166Vdw25xyIJV3lp187xoMoh5juRQAujirK10Ie5TD5a2KszsyfxCSKz290jw/VEQYT4X6RTmJACbK3/voQ4K1823jEazFAYkS1ZGlvTWoafWAKd+MY=
   on:
     tags: true
+    all_branches: true
     repo: omakasecorp/gulp-jsxcs
