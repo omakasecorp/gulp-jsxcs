@@ -1,0 +1,8 @@
+{
+    "disallowMixedSpacesAndTabs": true,
+    "disallowMultipleVarDecl": true,
+    "disallowSpacesInsideObjectBrackets": true,
+    "excludeFiles": ["excluded.js"],
+    "validateIndentation": 4,
+    "validateQuoteMarks": "'"
+}

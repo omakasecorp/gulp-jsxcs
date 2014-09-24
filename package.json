@@ -1,0 +1,42 @@
+{
+    "name": "gulp-jsxcs",
+    "version": "0.1.0",
+    "description": "Check JSX code style with JSCS",
+    "license": "MIT",
+    "repository": "agschwender/gulp-jsxcs",
+    "author": {
+        "name": "Adam Gschwender",
+        "email": "adam.gschwender@gmail.com",
+        "url": "http://gschwa.com"
+    },
+    "engines": {
+        "node": ">=0.10.0"
+    },
+    "scripts": {
+        "pretest": "jscs *.js",
+        "test": "mocha"
+    },
+    "files": [
+        "index.js"
+    ],
+    "keywords": [
+        "gulpplugin",
+        "jscs",
+        "jsx",
+        "code",
+        "style",
+        "validate",
+        "check",
+        "checker"
+    ],
+    "dependencies": {
+        "gulp-util": "^3.0.1",
+        "jscs": "^1.6.2",
+        "react-dom-pragma": "^1.0.0",
+        "react-tools": "^0.11.2",
+        "through2": "^0.6.2"
+    },
+    "devDependencies": {
+        "mocha": "*"
+    }
+}
