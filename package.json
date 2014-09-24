@@ -1,9 +1,9 @@
 {
     "name": "gulp-jsxcs",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "Check JSX code style with JSCS",
     "license": "MIT",
-    "repository": "agschwender/gulp-jsxcs",
+    "repository": "omakasecorp/gulp-jsxcs",
     "author": {
         "name": "Adam Gschwender",
         "email": "adam.gschwender@gmail.com",

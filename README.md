@@ -1,4 +1,4 @@
-# [gulp](http://gulpjs.com)-jsxcs [![Build Status](https://travis-ci.org/agschwender/gulp-jsxcs.svg?branch=master)](https://travis-ci.org/agschwender/gulp-jsxcs)
+# [gulp](http://gulpjs.com)-jsxcs [![Build Status](https://travis-ci.org/omakasecorp/gulp-jsxcs.svg?branch=master)](https://travis-ci.org/omakasecorp/gulp-jsxcs)
 
 Check JSX code style with [JSCS](https://github.com/jscs-dev/node-jscs).
 
