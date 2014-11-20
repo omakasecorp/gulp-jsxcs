@@ -27,7 +27,7 @@ module.exports = function (options) {
         }
 
         var strLines = str.split(/\r\n|\r|\n/);
-        var transformedStrLines = react.transform(str).split(/\r\n|\r|\n/);
+        var transformedStrLines = react.transform(str, {stripTypes: true}).split(/\r\n|\r|\n/);
 
         if (strLines.length === transformedStrLines.length) {
             var numLines = transformedStrLines.length;
