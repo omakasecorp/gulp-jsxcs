@@ -23,7 +23,7 @@ module.exports = function (options) {
     checker.checkString = function(str, filename) {
         if ((filename || '').match(/\.jsx$/)) {
             str = reactDomPragma(str);
-            filename = filename.replace(/\.jsx$/, '.js')
+            filename = filename.replace(/\.jsx$/, '.js');
         }
 
         var strLines = str.split(/\r\n|\r|\n/);
@@ -66,7 +66,11 @@ module.exports = function (options) {
             return;
         }
 
-        if (checker._isExcluded(file.path)) {
+        var isExcluded = checker.getConfiguration
+                ? checker.getConfiguration().isFileExcluded(file.path)
+                : checker._isExcluded(file.path);
+
+        if (isExcluded) {
             cb(null, file);
             return;
         }

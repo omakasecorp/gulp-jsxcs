@@ -58,7 +58,8 @@ gulp.task('default', function () {
 
 ## JSCS Options
 
-See the [JSCS options](https://github.com/jscs-dev/node-jscs#options) for details on the options available for checking.
+See the [JSCS options](https://github.com/jscs-dev/node-jscs#options)
+for details on the options available for checking.
 
 
 ## License
