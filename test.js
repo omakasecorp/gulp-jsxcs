@@ -191,4 +191,24 @@ describe('gulp-jsxcs test suite:', function() {
         stream.end();
     });
 
+    it('check valid JS files with flow types', function (cb) {
+        var stream = jsxcs();
+
+        stream.on('data', function () {});
+
+        stream.on('error', function (err) {
+            assert(false);
+        });
+
+        stream.on('end', cb);
+
+        stream.write(new gutil.File({
+            path: __dirname + '/fixture.js',
+            contents: new Buffer('function foo(x: string): string {\n    return x;\n}')
+        }));
+
+        stream.end();
+    });
+
+
 });
