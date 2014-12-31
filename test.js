@@ -41,7 +41,7 @@ describe('gulp-jsxcs test suite:', function() {
 
         stream.write(new gutil.File({
             base: __dirname,
-            path: __dirname + '/fixture2.js',
+            path: __dirname + '/fixture3.js',
             contents: new Buffer('var x = "foo";')
         }));
 
