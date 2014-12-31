@@ -5,6 +5,7 @@ var gutil = require('gulp-util');
 var jsxcs = require('./');
 
 describe('gulp-jsxcs test suite:', function() {
+    this.timeout(5000);
 
     it('check JS files', function (cb) {
         var stream = jsxcs();
