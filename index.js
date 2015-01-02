@@ -3,8 +3,6 @@
 var Checker = require('jscs');
 var gutil = require('gulp-util');
 var loadConfigFile = require('jscs/lib/cli-config');
-var react = require('react-tools');
-var reactDomPragma = require('react-dom-pragma');
 var through = require('through2');
 
 module.exports = function (options) {
@@ -14,46 +12,11 @@ module.exports = function (options) {
 
     checker.registerDefaultRules();
 
-    if (typeof options === 'object') {
-        checker.configure(options);
-    } else {
-        checker.configure(loadConfigFile.load(options));
+    var config = typeof options === 'object' ? options : loadConfigFile.load(options);
+    if (!config.esprima) {
+        config.esprima = 'esprima-fb';
     }
-
-    checker.checkString = function(str, filename) {
-        if ((filename || '').match(/\.jsx$/)) {
-            str = reactDomPragma(str);
-            filename = filename.replace(/\.jsx$/, '.js');
-        }
-
-        var strLines = str.split(/\r\n|\r|\n/);
-        var transformedStrLines = react.transform(str, {stripTypes: true}).split(/\r\n|\r|\n/);
-
-        if (strLines.length === transformedStrLines.length) {
-            var numLines = transformedStrLines.length;
-            var disabled = false;
-            for (var i = 0; i < numLines; i++) {
-                if (transformedStrLines[i] !== strLines[i]) {
-                    if (!disabled) {
-                        transformedStrLines[i] = transformedStrLines[i]
-                            + ' // jscs:disable';
-                        disabled = true;
-                    }
-                } else if (disabled) {
-                    transformedStrLines[i] = transformedStrLines[i]
-                        + ' // jscs:enable';
-                    disabled = false;
-                }
-            }
-        }
-
-        var transformedStr = transformedStrLines.join('\n');
-
-        var errors = Checker.prototype.checkString.call(
-            this, transformedStr, filename);
-
-        return errors;
-    };
+    checker.configure(config);
 
     return through.obj(function (file, enc, cb) {
         if (file.isNull()) {
