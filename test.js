@@ -78,7 +78,7 @@ describe('gulp-jsxcs test suite:', function() {
     });
 
     it('check JS files with JSX pragma and ignore transformed blocks', function (cb) {
-        var stream = jsxcs();
+        var stream = jsxcs({preset: 'google'});
         var success = false;
 
         stream.on('data', function() {});
@@ -92,6 +92,7 @@ describe('gulp-jsxcs test suite:', function() {
 
         stream.on('error', function (err) {
             if (/Invalid quote mark found/.test(err)) {
+                console.error(err);
                 assert(false, 'Identified error in JSX block');
             } else if (/Illegal space before/.test(err)
                 && /Multiple var declaration/.test(err)) {
@@ -130,6 +131,7 @@ describe('gulp-jsxcs test suite:', function() {
 
         stream.on('error', function (err) {
             if (/Invalid quote mark found/.test(err)) {
+                console.error(err);
                 assert(false, 'Identified error in JSX block');
             } else if (/Illegal space before/.test(err)
                 && /Multiple var declaration/.test(err)) {
@@ -205,6 +207,50 @@ describe('gulp-jsxcs test suite:', function() {
         stream.write(new gutil.File({
             path: __dirname + '/fixture.js',
             contents: new Buffer('function foo(x: string): string {\n    return x;\n}')
+        }));
+
+        stream.end();
+    });
+
+    it('check valid file with JSX in last line', function(cb) {
+        var stream = jsxcs({requireLineFeedAtFileEnd: true});
+
+        stream.on('data', function () {});
+
+        stream.on('error', function (err) {
+            assert(false);
+        });
+
+        stream.on('end', cb);
+
+        stream.write(new gutil.File({
+            path: __dirname + '/fixture.js',
+            contents: new Buffer('/** @jsx React.DOM */\n'
+                                 + 'var x = (<div />);\n')
+        }));
+
+        stream.end();
+    });
+
+    it('check valid file with requireCapitalizedComments', function(cb) {
+        var stream = jsxcs({requireCapitalizedComments: true});
+
+        stream.on('data', function () {});
+
+        stream.on('error', function (err) {
+            assert(false);
+        });
+
+        stream.on('end', cb);
+
+        stream.write(new gutil.File({
+            path: __dirname + '/fixture.js',
+            contents: new Buffer('/** @jsx React.DOM */\n'
+                                 + 'var x = (<div />);\n'
+                                 + '\n'
+                                 + 'var y  = 2;\n'
+                                 + '\n'
+                                 + 'var z = (<div />);\n')
         }));
 
         stream.end();

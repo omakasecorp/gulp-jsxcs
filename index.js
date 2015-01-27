@@ -28,29 +28,16 @@ module.exports = function (options) {
 
         var strLines = str.split(/\r\n|\r|\n/);
         var transformedStrLines = react.transform(str, {stripTypes: true}).split(/\r\n|\r|\n/);
-
-        if (strLines.length === transformedStrLines.length) {
-            var numLines = transformedStrLines.length;
-            var disabled = false;
-            for (var i = 0; i < numLines; i++) {
-                if (transformedStrLines[i] !== strLines[i]) {
-                    if (!disabled) {
-                        transformedStrLines[i] = transformedStrLines[i]
-                            + ' // jscs:disable';
-                        disabled = true;
-                    }
-                } else if (disabled) {
-                    transformedStrLines[i] = transformedStrLines[i]
-                        + ' // jscs:enable';
-                    disabled = false;
-                }
-            }
-        }
-
         var transformedStr = transformedStrLines.join('\n');
 
         var errors = Checker.prototype.checkString.call(
             this, transformedStr, filename);
+
+        if (strLines.length === transformedStrLines.length) {
+            errors.filter(function(err) {
+                return transformedStrLines[err.line - 1] === strLines[err.line - 1];
+            });
+        }
 
         return errors;
     };
