@@ -256,5 +256,33 @@ describe('gulp-jsxcs test suite:', function() {
         stream.end();
     });
 
+    it('check JS files with parse error', function (cb) {
+        var stream = jsxcs();
+        var success = false;
+
+        stream.on('data', function() {});
+
+        stream.on('end', function() {
+            if (!success) {
+                assert(false, 'Failed to raise expected parse errors');
+            }
+            cb();
+        });
+
+        stream.on('error', function (err) {
+            if (/Expected corresponding XJS closing tag/.test(err)) {
+                success = true;
+            }
+        });
+
+        stream.write(new gutil.File({
+            base: __dirname,
+            path: __dirname + '/fixture.js',
+            contents: new Buffer('/** @jsx React.DOM */\n'
+                                 + 'var x = (<div></span>);\n')
+        }));
+
+        stream.end();
+    });
 
 });
