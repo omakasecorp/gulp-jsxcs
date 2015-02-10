@@ -64,11 +64,29 @@ module.exports = function (options) {
 
         try {
             var errors = checker.checkString(file.contents.toString(), file.relative);
-            errors.getErrorList().forEach(function (err) {
+            var errorList = errors.getErrorList();
+
+            file.jsxcs = errorList.length
+                ? {success: false, errorCount: errorList.length, errors: errorList}
+                : {success: true, errorCount: 0, errors: []};
+
+            errorList.forEach(function (err) {
                 out.push(errors.explainError(err, true));
             });
+
         } catch (err) {
-            out.push(err.stack.replace('null:', file.relative + ':'));
+            file.jsxcs = {success: true, errorCount: 1, errors: new Error(err.message)};
+
+            var msg;
+            if (/null\s*:/.test(err.message)) {
+                msg = err.stack.replace(/null\s*:/, file.relative + ':');
+            } else if (/Error:/.test(err.message)) {
+                msg = err.stack.replace(/Error:\s*/, 'Error: ' + file.relative + ': ');
+            } else {
+                msg = file.relative + ': ' + err.stack;
+            }
+
+            out.push(msg);
         }
 
         cb(null, file);
