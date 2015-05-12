@@ -8,16 +8,36 @@ var reactDomPragma = require('react-dom-pragma');
 var through = require('through2');
 
 module.exports = function (options) {
+    options = options || '.jscsrc';
+
+    if (typeof options === 'string') {
+        options = {configPath: options};
+    }
 
     var out = [];
-    var checker = new Checker();
+    var esnext = !!options.esnext;
+    var checker = new Checker({esnext: esnext});
 
     checker.registerDefaultRules();
 
-    if (typeof options === 'object') {
-        checker.configure(options);
+    var configPath = options.configPath;
+
+    delete options.esnext;
+    delete options.configPath;
+
+    if (configPath) {
+        if (typeof options === 'object' && Object.keys(options).length) {
+            throw new Error('configPath option is not compatible with code style options');
+        }
+
+        try {
+            checker.configure(loadConfigFile.load(configPath));
+        } catch (err) {
+            err.message = 'Unable to load JSCS config file at ' + tildify(path.resolve(configPath)) + '\n' + err.message;
+            throw err;
+        }
     } else {
-        checker.configure(loadConfigFile.load(options));
+        checker.configure(options);
     }
 
     checker.checkString = function(str, filename) {
@@ -27,7 +47,8 @@ module.exports = function (options) {
         }
 
         var strLines = str.split(/\r\n|\r|\n/);
-        var transformedStrLines = react.transform(str, {stripTypes: true}).split(/\r\n|\r|\n/);
+        var reactOptions = {stripTypes: true, harmony: esnext, es6module: esnext};
+        var transformedStrLines = react.transform(str, reactOptions).split(/\r\n|\r|\n/);
         var transformedStr = transformedStrLines.join('\n');
 
         var errors = Checker.prototype.checkString.call(
