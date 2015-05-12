@@ -33,7 +33,7 @@ module.exports = function (options) {
         try {
             checker.configure(loadConfigFile.load(configPath));
         } catch (err) {
-            err.message = 'Unable to load JSCS config file at ' + tildify(path.resolve(configPath)) + '\n' + err.message;
+            err.message = 'Unable to load JSCS config file at ' + configPath + '\n' + err.message;
             throw err;
         }
     } else {
