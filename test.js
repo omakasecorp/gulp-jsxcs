@@ -270,7 +270,7 @@ describe('gulp-jsxcs test suite:', function() {
         });
 
         stream.on('error', function (err) {
-            if (/Expected corresponding XJS closing tag/.test(err)) {
+            if (/Expected corresponding (XJS|JSX) closing tag/.test(err)) {
                 success = true;
             }
         });
