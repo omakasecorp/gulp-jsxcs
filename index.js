@@ -88,7 +88,7 @@ module.exports = function (options) {
             var errorList = errors.getErrorList();
 
             file.jsxcs = errorList.length
-                ? {success: false, errorCount: errorList.length, errors: errorList}
+                ? {success: false, errorCount: errorList.length, errors: errorList, results: errors}
                 : {success: true, errorCount: 0, errors: []};
 
             errorList.forEach(function (err) {
